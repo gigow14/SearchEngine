@@ -1,11 +1,10 @@
-package parsers;
+package com.searchengine.parsers;
 
 import java.io.File;
 import org.apache.commons.io.FilenameUtils;
 
-import parsers.DocumentParser;
-import enumarations.DocumentTypes;
-import enumarations.MicrosoftDocTypes;
+import com.searchengine.enumarations.DocumentTypes;
+import com.searchengine.enumarations.MicrosoftDocTypes;
 
 public class ReadDocType {
     protected static MicrosoftDocTypes microsoftDocType;

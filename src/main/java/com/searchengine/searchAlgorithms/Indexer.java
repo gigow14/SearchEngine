@@ -1,16 +1,18 @@
-package searchAlgorithms;
+package com.searchengine.searchAlgorithms;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.nio.file.Path;
+import java.util.List;
 
+import com.searchengine.model.SearchPhrase;
 import org.apache.commons.io.FileUtils;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -33,18 +35,17 @@ import org.apache.lucene.search.highlight.Highlighter;
 import org.apache.lucene.search.highlight.QueryScorer;
 import org.apache.commons.lang3.StringUtils;
 
-import enumarations.DocumentStatus;
-import parsers.ReadDocType;
-//import java.util.List;
+import com.searchengine.enumarations.DocumentStatus;
+import com.searchengine.parsers.ReadDocType;
 
 public class Indexer {
-    
+
     public Indexer() {
         // TODO Auto-generated constructor stub
     }
     
-    private static final String pathOfSourceFiles = "/home/ggw/Downloads/index"; //location of source files
-    private static final String pathOfIndexedFiles = "/home/ggw/Downloads/indexed"; //location of indexed files
+    private static final String pathOfSourceFiles = "/home/ggw/eclipse-workspace/BachelorArbeit/files"; //location of source files
+    private static final String pathOfIndexedFiles = "/home/ggw/eclipse-workspace/BachelorArbeit/indexed"; //location of indexed files
     private IndexWriter iWriter;
         
     private void Index()
@@ -56,9 +57,7 @@ public class Indexer {
            
             Analyzer analyzer = new StandardAnalyzer();
             IndexWriterConfig iConfig = new IndexWriterConfig(analyzer);
-            
-            //iConfig.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
-            
+
             iWriter = new IndexWriter(dir, iConfig);
             
             iWriter.commit();
@@ -181,14 +180,14 @@ public class Indexer {
         }
     }
     
-    private  void mains() throws FileNotFoundException, CorruptIndexException, IOException {
+    public void mains() throws FileNotFoundException, CorruptIndexException, IOException {
             Index();
             checkFileValidity();
             closeIndex();
             System.out.println("Total Document Indexed : " + TotalNumberOfIndexedDocs());
     }
 
-    private  void searchIndex(String instring) throws IOException  {
+    public List<SearchPhrase> searchIndex(String instring) throws IOException  {
         int queryCounter = 0;
         
         try
@@ -208,28 +207,27 @@ public class Indexer {
             TopDocs hits = searcher.search(query, 100);
             
             System.out.println("Total no of hits for content: " + hits.totalHits);
-            
+            List<SearchPhrase> result = new ArrayList<>();
             for (int i = 0; i < hits.scoreDocs.length; i++) {
                 ScoreDoc numOfMacthes = hits.scoreDocs[i];
                 Document doc = searcher.doc(numOfMacthes.doc);
                 String fileName = doc.get("filename");
                 String fileContent = doc.get("content");
-                System.out.println("\n" + fileName);
-                System.out.println("Score: " + numOfMacthes.score);
                 String fragment = highlighter.getBestFragment(analyzer1, "content", fileContent);
                 queryCounter = StringUtils.countMatches(fragment, "</B>");
                 SimpleDateFormat formatter = new SimpleDateFormat();
                 String sDateAndTime = formatter.format(new File(doc.get("filepath")).lastModified());
-                System.out.println("\n" + fragment);
-                System.out.print("\nMatches: " + queryCounter);
-                System.out.print("\nLast Modified: " + sDateAndTime);
+
+                SearchPhrase searchPhrase = new SearchPhrase(fileName,numOfMacthes.score,fragment,queryCounter,sDateAndTime);
+                result.add(searchPhrase);
             }
-        }catch(Exception e)
-        {
+            return result;
+        }catch(Exception e) {
             System.out.println("Problems searching");
         }
+        return null;
     }
-    
+
   public static void main(String args[]) throws IOException
   {
       System.setProperty("sun.java2d.cmm", "sun.java2d.cmm.kcms.KcmsServiceProvider");
@@ -237,7 +235,7 @@ public class Indexer {
 
       Indexer i = new Indexer();
       i.mains();
-      i.searchIndex("Segmentierung");
-            
+      System.out.println();
+      i.searchIndex("Kurs").forEach(System.out::println);
   }
 }

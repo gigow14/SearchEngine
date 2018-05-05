@@ -1,10 +1,9 @@
-package parsers;
+package com.searchengine.parsers;
 
 import java.io.File;
 import java.io.FileInputStream;
 
-import enumarations.MicrosoftDocTypes;
-import parsers.ReadDocType;
+import com.searchengine.enumarations.MicrosoftDocTypes;
 
 //used for Microsoft types of documents
 import org.apache.poi.hwpf.HWPFDocument;

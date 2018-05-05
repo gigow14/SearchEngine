@@ -1,4 +1,4 @@
-package enumarations;
+package com.searchengine.enumarations;
 
 public enum MicrosoftDocTypes {
     eDoc,
