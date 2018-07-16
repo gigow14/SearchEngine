@@ -156,7 +156,8 @@ public class DocumentParser {
 
 	        //loading of the document
 	        PDDocument pdfDoc = PDDocument.load(file);
-	        //instantiation  of PDFTextStripper class
+	        
+		//instantiation  of PDFTextStripper class
 	        PDFTextStripper pdfS = new PDFTextStripper();
 	        
 	        //Retrieving the text from the PDF Document
