@@ -41,103 +41,103 @@ public class DocumentParser {
 			switch(mDocType)
 			{
 			    case eDoc:
-
+				
 			        // loading the .doc document
 			        HWPFDocument doc = new HWPFDocument(fis);
 			        
 			        // instantiation  of WordExtractor class
-    	            WordExtractor WordDoc = new WordExtractor(doc);
+    	                        WordExtractor WordDoc = new WordExtractor(doc);
     	            
-    	            // retrieving the text from the .doc document
-    	            str = WordDoc.getText();
+    	                        // retrieving the text from the .doc document
+    	                        str = WordDoc.getText();
     	            
-    	            // close the .doc document
-    	            WordDoc.close(); 
+    	                        // close the .doc document
+    	                        WordDoc.close(); 
     	            
-    	            break;
+    	                        break;
     	            
 			    case eDocx:
 
-	                // loading the .docx document
+	                        // loading the .docx document
 			        XWPFDocument  docx = new XWPFDocument(OPCPackage.open(file));
 			        
 			        // instantiation  of XWPFWordExtractor class
 			        XWPFWordExtractor WordDocx = new XWPFWordExtractor(docx);
 			                    
-                    // retrieving the text from the .docx document
+                                // retrieving the text from the .docx document
 			        str = WordDocx.getText();
 			        
-	                // close the .docx document
+	                        // close the .docx document
 			        WordDocx.close();
 			        
-		            break;
+		                break;
 		            
 			    case eXls:
 
-	                // loading the .xls document
+	                        // loading the .xls document
 			        HSSFWorkbook  xls = new HSSFWorkbook(fis);
 			        
-	                // instantiation  of ExcelExtractor class
-		            ExcelExtractor ExcelDoc = new ExcelExtractor(xls);
+	                        // instantiation  of ExcelExtractor class
+		                ExcelExtractor ExcelDoc = new ExcelExtractor(xls);
 		            
-                    // retrieving the text from the .xls document
-		            str = ExcelDoc.getText();
+                                // retrieving the text from the .xls document
+		                str = ExcelDoc.getText();
 		            
-		            // close the .xls document
-		            ExcelDoc.close();
+		                // close the .xls document
+		                ExcelDoc.close();
 		            
-		            break;
+		                break;
 		            
 			    case eXlsx:
-			        
-                    // loading the .xlsx document
-    	            XSSFWorkbook  xlsx = new XSSFWorkbook(fis);
+			    	  	  
+                            	// loading the .xlsx document
+    	                        XSSFWorkbook  xlsx = new XSSFWorkbook(fis);
     	            
-                    // instantiation  of XSSFExcelExtractor class
-    	            XSSFExcelExtractor ExcelDocx = new XSSFExcelExtractor(xlsx);
+                                // instantiation  of XSSFExcelExtractor class
+    	                        XSSFExcelExtractor ExcelDocx = new XSSFExcelExtractor(xlsx);
     	            
-                    // retrieving the text from the .xlsx document
-    	            str = ExcelDocx.getText();
+                                // retrieving the text from the .xlsx document
+    	                        str = ExcelDocx.getText();
     	            
-                    // close the .xlsx document
-    	            ExcelDocx.close();
+                                // close the .xlsx document
+    	                        ExcelDocx.close();
     	            
-    	            break;
+    	                        break;
     	            
 			    case ePpt:
 			        
-                    // loading the .ppt document
+                                // loading the .ppt document
 			        HSLFSlideShowImpl ppt = new HSLFSlideShowImpl(fis);
 			        
-                    // instantiation  of PowerPointExtractor class
+                                // instantiation  of PowerPointExtractor class
 			        PowerPointExtractor PowerPointPpt = new PowerPointExtractor(ppt);
 			        
-                    // retrieving the text from the .ppt document
+                                // retrieving the text from the .ppt document
 			        str = PowerPointPpt.getText();
 			        
-                    // close the .ppt document
+                                // close the .ppt document
 			        PowerPointPpt.close();
 			        
 			        break;
 			        
 			    case ePptx:
 			        
-                    // loading the .pptx document
+                    	        // loading the .pptx document
 			        XMLSlideShow pptx = new XMLSlideShow(fis);
 			        
-                    // instantiation  of XSLFPowerPointExtractor class
+                                // instantiation  of XSLFPowerPointExtractor class
 			        XSLFPowerPointExtractor PowerPointPptx = new XSLFPowerPointExtractor(pptx);
                     
-                    // retrieving the text from the .pptx document
-                    str = PowerPointPptx.getText();
+                                // retrieving the text from the .pptx document
+                                str = PowerPointPptx.getText();
                     
-                    // close the .pptx document
-                    PowerPointPptx.close();
+                                // close the .pptx document
+                                PowerPointPptx.close();
                     
-                    break;
+                                break;
                     
-    	         default:
-    	             break;
+    	                    default:
+    	                        break;
 			}
 			
 		}catch ( Exception exception) {
