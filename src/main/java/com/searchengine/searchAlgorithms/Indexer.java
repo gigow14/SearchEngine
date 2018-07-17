@@ -52,14 +52,17 @@ public class Indexer {
     {
         try
         {
+            //open indexed files directory
             Path indexDirectoryPath = Paths.get(pathOfIndexedFiles);         
             FSDirectory dir = FSDirectory.open(indexDirectoryPath);
            
+            //create new index write configuration
             Analyzer analyzer = new StandardAnalyzer();
             IndexWriterConfig iConfig = new IndexWriterConfig(analyzer);
 
             iWriter = new IndexWriter(dir, iConfig);
             
+            //commit indexed files.
             iWriter.commit();
             
         }
@@ -88,13 +91,16 @@ public class Indexer {
         
         try
         {
-            
+            //creating lucene document
             Document lucenedoc = new Document();
             
+            //creating supported document types reader
             ReadDocType doc = new ReadDocType();
             
+            //take file content from supported document types
             fileContent = doc.ParseDocuments(file);
             
+            //add new fields in lucene indexing document
             lucenedoc.add(new StringField("filename",file.getName(),Field.Store.YES));
             lucenedoc.add(new StringField("filepath",file.getAbsolutePath(),Field.Store.YES));
             lucenedoc.add(new TextField("content", fileContent, Field.Store.YES));
@@ -104,10 +110,12 @@ public class Indexer {
             {
                 if(docStatus != DocumentStatus.eUpdateDocument)
                 {
+                    //add document if not existing.
                     iWriter.addDocument(lucenedoc);
                 }
                 else
                 {
+                    //update document if existing.
                     iWriter.updateDocument(new Term("filepath", file.getAbsolutePath()), lucenedoc);  
                 }
             }
