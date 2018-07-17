@@ -235,15 +235,3 @@ public class Indexer {
         }
         return null;
     }
-
-  public static void main(String args[]) throws IOException
-  {
-      System.setProperty("sun.java2d.cmm", "sun.java2d.cmm.kcms.KcmsServiceProvider");
-      System.setProperty("org.apache.pdfbox.rendering.UsePureJavaCMYKConversion", "true");
-
-      Indexer i = new Indexer();
-      i.mains();
-      System.out.println();
-      i.searchIndex("Kurs").forEach(System.out::println);
-  }
-}
